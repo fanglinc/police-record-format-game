@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>笔录竞标大会 · 无电脑攻坚 · 角色扮演</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: linear-gradient(145deg, #1b2a38 0%, #0e1a24 100%);
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            color: #e3f0f9;
+        }
+        .container {
+            max-width: 1400px;
+            width: 100%;
+            background: rgba(10, 25, 36, 0.8);
+            backdrop-filter: blur(4px);
+            border: 1px solid #2f5470;
+            border-radius: 50px;
+            padding: 30px 25px;
+            box-shadow: 0 20px 30px -8px black;
+        }
+        .header {
+            background: #0d2a3b;
+            border-radius: 60px;
+            padding: 20px 30px;
+            margin-bottom: 30px;
+            border: 1px solid #3d6e8f;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .mission-tag {
+            background: #c44536;
+            padding: 12px 25px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 1.4rem;
+            letter-spacing: 1px;
+            box-shadow: inset 0 -3px 0 #73261a;
+        }
+        .mission-detail {
+            background: #173e51;
+            padding: 10px 25px;
+            border-radius: 40px;
+            font-size: 1.3rem;
+            border-left: 5px solid #ffb74d;
+        }
+        .role-tip {
+            background: #154152;
+            padding: 12px 25px;
+            border-radius: 40px;
+            font-weight: 600;
+            color: #ffd966;
+        }
+        /* 抽签栏 三组 */
+        .group-row {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+        .group-card {
+            background: #102530;
+            border-radius: 40px;
+            width: 330px;
+            padding: 20px 18px;
+            border: 2px solid #2d5670;
+            box-shadow: 0 8px 0 #08202b;
+            display: flex;
+            flex-direction: column;
+        }
+        .group-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px dashed #376a88;
+            padding-bottom: 12px;
+            margin-bottom: 15px;
+        }
+        .group-name {
+            background: #1f4057;
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-weight: 700;
+        }
+        .draw-trigger {
+            background: #2f6392;
+            border: none;
+            color: white;
+            width: 50px;
+            height: 50px;
+            font-size: 1.8rem;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: 800;
+            border-bottom: 3px solid #12314a;
+        }
+        .draw-trigger:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            background: #385b73;
+        }
+        .identity-badge {
+            background: #0a2635;
+            border-radius: 28px;
+            padding: 16px 12px;
+            text-align: center;
+            border-left: 10px solid gray;
+            margin-bottom: 15px;
+        }
+        .identity-emoji {
+            font-size: 4.2rem;
+            line-height: 1;
+        }
+        .identity-name {
+            font-size: 1.8rem;
+            font-weight: 800;
+        }
+        .identity-slogan {
+            background: #1b4053;
+            border-radius: 50px;
+            padding: 5px 10px;
+            margin-top: 8px;
+            font-style: italic;
+        }
+        .resource-panel {
+            background: #12384b;
+            border-radius: 28px;
+            padding: 16px;
+            margin: 12px 0;
+            border: 1px solid #2b799b;
+        }
+        .work-content {
+            width: 100%;
+            background: #1b3a4b;
+            border: 2px solid #347a9e;
+            border-radius: 25px;
+            padding: 14px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            color: white;
+            resize: vertical;
+            margin: 10px 0;
+        }
+        .work-content::placeholder {
+            color: #9fbcd0;
+            font-style: italic;
+        }
+        .flow-box {
+            background: #0f3342;
+            border-radius: 25px;
+            padding: 14px;
+            min-height: 90px;
+            border: 2px dashed #3b83a8;
+            margin: 10px 0;
+            font-size: 0.95rem;
+        }
+        .btn-sm {
+            background: #2e6188;
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-right: 6px;
+            border-bottom: 2px solid #143648;
+        }
+        .instruct-banner {
+            background: #07202b;
+            border-radius: 60px;
+            padding: 18px 28px;
+            margin: 25px 0;
+            border: 2px solid #ce9141;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .total-estimate {
+            font-size: 2rem;
+            font-weight: 800;
+            background: #1d4e64;
+            padding: 10px 35px;
+            border-radius: 60px;
+        }
+        .query-box {
+            background: #12394b;
+            padding: 15px 25px;
+            border-radius: 40px;
+            flex: 2;
+            min-width: 260px;
+            border-left: 8px solid #f5a65b;
+        }
+        .bidding-zone {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 25px 0;
+            justify-content: center;
+        }
+        .vote-card {
+            background: #1c3343;
+            border-radius: 35px;
+            padding: 20px;
+            width: 280px;
+            border: 2px solid #417694;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+        .vote-card.selected {
+            border: 4px solid #f4c542;
+            background: #255067;
+        }
+        .vote-role {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        .vote-count {
+            font-size: 2.6rem;
+            font-weight: 800;
+            color: #ffcf6e;
+            text-align: center;
+        }
+        .vote-btn {
+            background: #4a6b86;
+            width: 100%;
+            border: none;
+            color: white;
+            padding: 14px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            border-bottom: 4px solid #23475f;
+            cursor: pointer;
+        }
+        .verdict-panel {
+            background: #0b293b;
+            border-radius: 60px;
+            padding: 20px 30px;
+            margin-top: 25px;
+            border: 2px solid #bd7a42;
+        }
+        .reset-btn {
+            background: #2e4e64;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            color: white;
+            font-weight: 800;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-top: 30px;
+            border-bottom: 4px solid #16394d;
+        }
+        footer {
+            text-align: center;
+            color: #467c9c;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- 头部任务 -->
+    <div class="header">
+        <div class="mission-tag">📋 紧急任务</div>
+        <div class="mission-detail"><strong>3份混乱笔录 · 15分钟完成格式化</strong></div>
+        <div class="role-tip">⚡ 无电脑 · 纯思维攻坚</div>
+    </div>
+
+    <!-- 抽签区：三组 -->
+    <div class="group-row" id="groupRow">
+        <!-- 组1 动态js生成但先静态占位方便 -->
+    </div>
+
+    <!-- 全局指引 + 总时长 + 质询语句 -->
+    <div class="instruct-banner">
+        <div class="total-estimate" id="globalTimerDisplay">⏳ 15:00</div>
+        <div class="query-box" id="querySuggestion">
+            💬 点击下方“抽取身份”后，各组填写工作内容与流程图。准备质询：
+        </div>
+    </div>
+
+    <!-- 竞标投票区 (动态生成) -->
+    <div id="voteContainer" style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin: 25px 0;"></div>
+
+    <!-- 领导裁决区 -->
+    <div class="verdict-panel" id="verdictPanel">
+        <div style="display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
+            <span style="font-size: 2rem;">⚖️ 领导裁决</span>
+            <span id="verdictText" style="background:#1c445b; padding:10px 30px; border-radius:50px; font-size:1.5rem; flex:1;">等待竞标...</span>
+            <button id="announceVerdictBtn" class="btn-sm" style="background:#b8612e;">🗳️ 宣布中标</button>
+        </div>
+        <div id="verdictReason" style="margin-top: 15px; font-style: italic; color: #f5cba0;"></div>
+    </div>
+
+    <!-- 重置按钮 -->
+    <div style="text-align: center;">
+        <button class="reset-btn" id="fullResetBtn">⟲ 重新抽签 / 重置任务</button>
+    </div>
+    <footer>📌 每组先抽签 → 填写【工作内容】和【流程图】 → 进入竞标质询 → 投票</footer>
+</div>
+
+<script>
+    (function() {
+        // ---------- 身份定义 ----------
+        const IDENTITIES = [
+            {
+                name: '传统手工艺组',
+                emoji: '🐂',
+                slogan: '慢工出细活，传承工匠精神',
+                color: '#b86f3c',
+                baseResources: [
+                    '🟡 荧光笔 x 10支 (不同色)',
+                    '📋 便利贴 x 2本',
+                    '📏 尺子、橡皮擦',
+                    '👥 流水线分工：一人改标题，一人改问答，一人总检'
+                ],
+                typicalWork: '逐份手工修改：先用荧光笔标出所有不规范处，再用便利贴记录修正；三人协作，每份平均核对两遍。',
+                timeEstimate: '约40分钟（但容易眼花）',
+                advantage: '人工核验零误差，但极易疲劳'
+            },
+            {
+                name: '工具辅助组',
+                emoji: '🛠️',
+                slogan: '工欲善其事，必先利其器',
+                color: '#2f84b0',
+                baseResources: [
+                    '🔷 格式刷卡 x 5 (模拟格式刷)',
+                    '🔍 查找替换卡 x 5 (模拟批量替换)',
+                    '📐 样式概念卡 x 3 (认识样式但不熟练)',
+                    '📑 操作顺序卡：先清空行→再刷标题→再刷问答'
+                ],
+                typicalWork: '利用“查找替换卡”清理多余空行，再用“格式刷卡”统一标题格式，但每份需要重复点刷。',
+                timeEstimate: '约25分钟 (依赖流程顺序)',
+                advantage: '比手工快，但若第一份模板出错，后续全错'
+            },
+            {
+                name: '流程自动化组',
+                emoji: '🤖',
+                slogan: '一次设计，永久使用',
+                color: '#8f5fb0',
+                baseResources: [
+                    '📄 白纸 x 1 (设计“样式模板”)',
+                    '✏️ 笔 x 1 (思维武器)',
+                    '🧠 宏概念：录制一次操作，批量重放',
+                    '🔁 容灾设计：领导改标准只改一处定义'
+                ],
+                typicalWork: '在白纸上定义“标题样式”“问答样式”；设想用宏一键应用；讨论如果标准变动如何快速调整。',
+                timeEstimate: '10分钟设计 + 2分钟应用 (但无电脑，仅推演)',
+                advantage: '面对标准变化从容不迫，返工为0'
+            }
+        ];
+
+        // 组状态：每组抽取的身份索引 (0,1,2)  初始null
+        let groupIdentity = [null, null, null];  // 索引0=组1, 索引1=组2, 索引2=组3
+        // 投票计数 [传统, 工具, 自动化]
+        let votes = [0, 0, 0];
+        // 倒计时变量 (无自动计时，但显示15:00静态，可手动重置)
+        let timerMinutes = 15;
+        let timerSeconds = 0;
+        
+        // DOM元素
+        const groupRow = document.getElementById('groupRow');
+        const voteContainer = document.getElementById('voteContainer');
+        const querySuggestion = document.getElementById('querySuggestion');
+        const verdictText = document.getElementById('verdictText');
+        const verdictReason = document.getElementById('verdictReason');
+        const globalTimerDisplay = document.getElementById('globalTimerDisplay');
+
+        // 初始化界面
+        function renderGroups() {
+            let htmlStr = '';
+            for (let g = 1; g <= 3; g++) {
+                const idx = groupIdentity[g-1];  // null 或 0,1,2
+                const isDrawn = (idx !== null);
+                const identity = isDrawn ? IDENTITIES[idx] : null;
+                // 构建身份区块样式
+                let identityHtml = '';
+                let resourceHtml = '';
+                let disabledAttr = isDrawn ? 'disabled' : '';
+                if (isDrawn && identity) {
+                    identityHtml = `
+                        <div class="identity-badge" style="border-left-color: ${identity.color};">
+                            <div class="identity-emoji">${identity.emoji}</div>
+                            <div class="identity-name">${identity.name}</div>
+                            <div class="identity-slogan">“${identity.slogan}”</div>
+                        </div>
+                    `;
+                    // 资源卡
+                    resourceHtml = `<div class="resource-panel"><strong>📦 资源卡</strong><ul>${identity.baseResources.map(r => `<li>${r}</li>`).join('')}</ul><div>⏱️ 预估: ${identity.timeEstimate}</div><div>✨ ${identity.advantage}</div></div>`;
+                } else {
+                    identityHtml = `
+                        <div class="identity-badge" style="border-left-color: #555;">
+                            <div class="identity-emoji">❓</div>
+                            <div class="identity-name">未抽签</div>
+                            <div class="identity-slogan">点击闪电抽取角色</div>
+                        </div>
+                    `;
+                    resourceHtml = `<div class="resource-panel">🃏 资源卡：待抽签后显示</div>`;
+                }
+
+                htmlStr += `
+                <div class="group-card" data-group="${g}">
+                    <div class="group-title">
+                        <span class="group-name">👥 第${g}组</span>
+                        <button class="draw-trigger" id="drawBtn${g}" onclick="drawIdentity(${g})" ${disabledAttr}>⚡</button>
+                    </div>
+                    ${identityHtml}
+                    ${resourceHtml}
+                    <textarea class="work-content" id="workContent${g}" placeholder="【工作内容】小组讨论后填写：具体怎么分工？用什么流程？" rows="2">${isDrawn ? (identity ? identity.typicalWork : '') : ''}</textarea>
+                    <div class="flow-box" id="flowBox${g}" contenteditable="true" style="white-space: pre-wrap;">${isDrawn ? '📌 流程图：\n1. 识别混乱点\n2. ...' : '双击编辑流程图...'}</div>
+                    <div style="display: flex; gap: 5px; margin-top: 8px;">
+                        <button class="btn-sm" onclick="copyWorkContent(${g})">📋 复制工作内容</button>
+                        <button class="btn-sm" onclick="copyFlow(${g})">📋 复制流程图</button>
+                    </div>
+                </div>
+                `;
+            }
+            groupRow.innerHTML = htmlStr;
+        }
+
+        // 抽签函数 (全局)
+        window.drawIdentity = function(groupNum) {
+            const index = groupNum - 1;
+            if (groupIdentity[index] !== null) {
+                alert('本组已经抽过身份了！');
+                return;
+            }
+
+            // 获取当前已分配的身份计数
+            const countIdentity = [0, 0, 0];  // 传统,工具,自动化
+            groupIdentity.forEach(idx => {
+                if (idx !== null) countIdentity[idx]++;
+            });
+
+            // 规则：不能让某一身份缺失。最多允许同一身份出现两次，但三种必须至少各出现一次（针对三组）
+            // 当前未分配组数 = 3 - (countIdentity过滤非null的长度)
+            const assignedCount = countIdentity.reduce((a, b) => a + b, 0);
+            if (assignedCount === 2) {
+                // 最后一组必须补齐缺失的那个身份
+                let missingIndex = -1;
+                for (let i = 0; i < 3; i++) {
+                    if (countIdentity[i] === 0) missingIndex = i;
+                }
+                if (missingIndex !== -1) {
+                    // 强制分配缺失身份
+                    groupIdentity[index] = missingIndex;
+                } else {
+                    // 如果都已经至少1，那就随机，但允许出现重复 (如2+1)
+                    const available = [];
+                    for (let i=0; i<3; i++) available.push(i);
+                    const randomIdx = available[Math.floor(Math.random() * available.length)];
+                    groupIdentity[index] = randomIdx;
+                }
+            } else {
+                // 前两组随便抽，但避免提前锁死？允许任何随机
+                const randomIdx = Math.floor(Math.random() * 3);
+                groupIdentity[index] = randomIdx;
+            }
+
+            // 更新质询语句
+            updateQuerySuggestion();
+            renderGroups();
+            renderVoteCards();
+        };
+
+        // 更新中间质询语句（针对每组方案给出预置质询）
+        function updateQuerySuggestion() {
+            const lines = [];
+            for (let g = 1; g <= 3; g++) {
+                const idx = groupIdentity[g-1];
+                if (idx === null) continue;
+                const groupName = `第${g}组 (${IDENTITIES[idx].name})`;
+                if (idx === 0) { // 传统组
+                    lines.push(`${groupName}：你们通宵7小时，第80份眼花出错怎么办？如果领导半夜改标准，返工几份？`);
+                } else if (idx === 1) { // 工具组
+                    lines.push(`${groupName}：格式刷一次一段，1000个段落刷1000次？模板谁把关？`);
+                } else if (idx === 2) { // 自动化组
+                    lines.push(`${groupName}：没电脑怎么证明“一键应用”可行？万一宏有bug谁修？`);
+                }
+            }
+            if (lines.length === 0) {
+                querySuggestion.innerText = '💬 抽取身份后，质询语句会自动针对每组出现。';
+            } else {
+                querySuggestion.innerHTML = '💬 <strong>预设质询</strong>：<br>' + lines.join('<br>');
+            }
+        }
+
+        // 复制工作内容
+        window.copyWorkContent = function(groupNum) {
+            const textarea = document.getElementById(`workContent${groupNum}`);
+            copyToClipboard(textarea.value);
+        };
+        window.copyFlow = function(groupNum) {
+            const flowDiv = document.getElementById(`flowBox${groupNum}`);
+            copyToClipboard(flowDiv.innerText);
+        };
+        function copyToClipboard(txt) {
+            navigator.clipboard.writeText(txt).then(() => alert('已复制')).catch(() => alert('手动复制吧'));
+        }
+
+        // 渲染投票卡片 (基于已抽出的身份)
+        function renderVoteCards() {
+            const anyDrawn = groupIdentity.some(i => i !== null);
+            if (!anyDrawn) {
+                voteContainer.innerHTML = `<div style="background:#1f4258; padding:30px; border-radius:60px; width:100%; text-align:center;">✨ 抽签后会出现三种方案投票卡 ✨</div>`;
+                return;
+            }
+            let html = '';
+            for (let i = 0; i < IDENTITIES.length; i++) {
+                const idata = IDENTITIES[i];
+                // 哪些组是这个身份
+                const groupsWith = groupIdentity.map((val, idx) => val === i ? idx+1 : 0).filter(v => v).join('、');
+                if (!groupsWith) continue;  // 如果某种身份没被抽中，不显示投票卡，保持干净
+                html += `
+                <div class="vote-card" data-identity-index="${i}" onclick="selectVoteCard(${i})">
+                    <div class="vote-role">${idata.emoji} ${idata.name}</div>
+                    <div style="margin:8px 0;">👥 第 ${groupsWith} 组</div>
+                    <div class="vote-count" id="voteDisplay${i}">${votes[i]}</div>
+                    <button class="vote-btn" onclick="castVote(${i}); event.stopPropagation();">🗳️ 投给这个方案</button>
+                </div>
+                `;
+            }
+            voteContainer.innerHTML = html;
+        }
+
+        window.selectVoteCard = function(idx) {
+            document.querySelectorAll('.vote-card').forEach(c => c.classList.remove('selected'));
+            document.querySelectorAll(`.vote-card[data-identity-index="${idx}"]`).forEach(c => c.classList.add('selected'));
+        };
+
+        window.castVote = function(identityIdx) {
+            votes[identityIdx] += 1;
+            document.getElementById(`voteDisplay${identityIdx}`).innerText = votes[identityIdx];
+        };
+
+        // 领导裁决
+        document.getElementById('announceVerdictBtn').addEventListener('click', function() {
+            const maxVotes = Math.max(...votes);
+            if (maxVotes === 0) {
+                verdictText.innerText = '⚠️ 尚无投票';
+                verdictReason.innerText = '请各组展示方案，然后投票。';
+                return;
+            }
+            const winnerIdx = votes.indexOf(maxVotes);
+            const winner = IDENTITIES[winnerIdx];
+            verdictText.innerText = `🏆 中标：${winner.emoji} ${winner.name} (得票 ${maxVotes})`;
+            let reason = `“${winner.slogan}” —— `;
+            if (winnerIdx === 2) reason += '只有自动化组回答了“标准变了怎么办”，返工成本最低。';
+            else if (winnerIdx === 1) reason += '工具组流程清晰，但面对变化仍需返工。';
+            else reason += '传统组精神可嘉，但效率瓶颈明显，易出错。';
+            verdictReason.innerText = reason;
+        });
+
+        // 重置全部
+        document.getElementById('fullResetBtn').addEventListener('click', function() {
+            groupIdentity = [null, null, null];
+            votes = [0, 0, 0];
+            timerMinutes = 15;
+            timerSeconds = 0;
+            updateTimerDisplay();
+            renderGroups();
+            renderVoteCards();
+            verdictText.innerText = '等待竞标...';
+            verdictReason.innerText = '';
+            querySuggestion.innerText = '💬 点击闪电抽签，质询语句将自动生成。';
+        });
+
+        function updateTimerDisplay() {
+            globalTimerDisplay.innerText = `⏳ ${timerMinutes.toString().padStart(2,'0')}:${timerSeconds.toString().padStart(2,'0')}`;
+        }
+
+        // 初始化
+        function init() {
+            renderGroups();
+            renderVoteCards();
+            updateTimerDisplay();
+        }
+        init();
+
+        // 手动使timer不变，只作为静态显示；如需手动加减可添加按钮，但根据要求无需倒计时，只是静态15:00。
+        // 但老师可能想手动调整，加两个小按钮
+        const headerDiv = document.querySelector('.instruct-banner');
+        const adjust = document.createElement('div');
+        adjust.style.display = 'flex';
+        adjust.style.gap = '5px';
+        adjust.innerHTML = `<button class="btn-sm" id="incMin">+1分</button><button class="btn-sm" id="decMin">-1分</button>`;
+        headerDiv.appendChild(adjust);
+        document.getElementById('incMin').addEventListener('click', ()=>{
+            timerMinutes = Math.min(30, timerMinutes+1);
+            updateTimerDisplay();
+        });
+        document.getElementById('decMin').addEventListener('click', ()=>{
+            timerMinutes = Math.max(1, timerMinutes-1);
+            updateTimerDisplay();
+        });
+
+        // 捕获draw触发重新渲染投票
+        const originalDraw = window.drawIdentity;
+        window.drawIdentity = function(g) {
+            originalDraw(g);
+            renderVoteCards();
+            updateQuerySuggestion();
+        };
+    })();
+</script>
+</body>
+</html>
